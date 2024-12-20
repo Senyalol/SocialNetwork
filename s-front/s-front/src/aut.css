@@ -1,0 +1,108 @@
+/* Убираем отступы и высоту в 100% для html и body */
+html, body {
+    margin: 0;    
+    padding: 0;   
+    height: 100%; 
+}
+
+
+  
+  /* Стили для страницы авторизации */
+  .auth-body { /* Новый класс для body */
+    font-family: 'Arial', sans-serif;
+    background-image: url("aut2.jpg"); 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-blend-mode: multiply;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+/* Контейнер для формы авторизации */
+.auth-container {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* Размытие фона */
+    backdrop-filter: blur(3px);
+}
+
+/* Заголовок с уникальным классом */
+.custom-header {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #000000;
+    background-color: transparent; /* Убран фон с заголовка */
+}
+
+/* Группа элементов формы */
+.auth-form-group {
+    margin-bottom: 15px;
+}
+
+/* Метка для поля ввода */
+.auth-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+/* Поле ввода */
+.auth-form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+
+/* При фокусировке */
+.auth-form-group input:focus {
+    border-color: #18e0c6;
+    outline: none;
+}
+
+/* Кнопка авторизации */
+.auth-button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(153, 19, 255, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* При наведении курсора */
+.auth-button:hover {
+    background-color: rgba(212, 22, 35, 0.5);
+}
+
+/* Футер страницы авторизации */
+.auth-footer {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Ссылка в футере */
+.auth-footer a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+/* При наведении курсора на ссылку */
+.auth-footer a:hover {
+    text-decoration: underline;
+}
