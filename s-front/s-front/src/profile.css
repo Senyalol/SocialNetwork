@@ -100,9 +100,14 @@
 }
 
 .post {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: 15px; /* Отступ между постами */
+    border-bottom: 1px solid #eee; /* Граница между постами */
+    padding-bottom: 10px; /* Отступ снизу */
+    padding-top: 10px; /* Отступ сверху */
+    width: 90%; /* Ограничение ширины постов */
+    text-align: left; /* Текст слева для постов */
+    background-color: rgba(255, 255, 255, 0.9); /* Фон для поста */
+    border-radius: 5px; /* Закругленные углы */
 }
 
 .timestamp {

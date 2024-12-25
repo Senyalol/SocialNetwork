@@ -58,8 +58,8 @@ public class MessageService {
 
         message.setSender(sender);
         message.setReceiver(receiver);
-        message.setUser_content(filterMessage(createMessageDTO.getUser_content())); // Фильтрация
-        message.setReceiver_content(createMessageDTO.getReceiver_content());
+        message.setUserContent(filterMessage(createMessageDTO.getUser_content()));// Фильтрация
+        message.setReceiverContent(filterMessage(createMessageDTO.getReceiver_content()));
 
         messageRepository.save(message);
     }
@@ -79,10 +79,10 @@ public class MessageService {
             messageToUpdate.setReceiver(receiver);
         }
         if (updateMessageDTO.getUser_content() != null) {
-            messageToUpdate.setUser_content(filterMessage(updateMessageDTO.getUser_content())); // Фильтрация
+            messageToUpdate.setUserContent(filterMessage(updateMessageDTO.getUser_content())); // Фильтрация
         }
         if (updateMessageDTO.getReceiver_content() != null) {
-            messageToUpdate.setReceiver_content(updateMessageDTO.getReceiver_content());
+            messageToUpdate.setReceiverContent(updateMessageDTO.getReceiver_content());
         }
 
         messageRepository.save(messageToUpdate);
@@ -100,8 +100,8 @@ public class MessageService {
         messageDTO.setMessage_id(message.getId());
         messageDTO.setSender_id(message.getSender().getId());
         messageDTO.setReceiver_id(message.getReceiver().getId());
-        messageDTO.setUser_content(message.getUser_content());
-        messageDTO.setReceiver_content(message.getReceiver_content());
+        messageDTO.setUser_content(message.getUserContent());
+        messageDTO.setReceiver_content(message.getReceiverContent());
         return messageDTO;
     }
 

@@ -30,11 +30,11 @@ public class Message {
     @JoinColumn(name = "receiver_id", nullable = false)
     private com.SocialNet.SocialNetwork.Entites.User receiver;
 
-
+    @NotNull
     @Column(name = "user_content", nullable = false, length = Integer.MAX_VALUE)
-    private String user_content;
+    private String userContent;
 
-    @Column(name = "receiver_content")
-    private String receiver_content;
+    @Column(name = "receiver_content", length = Integer.MAX_VALUE)
+    private String receiverContent;
 
 }

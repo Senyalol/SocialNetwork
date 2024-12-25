@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 public class User {
+    //public UserDetails map;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_gen")
     @SequenceGenerator(name = "users_id_gen", sequenceName = "users_id_seq", allocationSize = 1)
@@ -40,7 +42,16 @@ public class User {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @Size(max = 255)
     @Column(name = "imageu")
     private String imageu;
 
+    //public UserDetails map(Object aNew) {
+      //  this.map = (UserDetails) aNew;
+        //return map;
+    //}
+
+//    public User orElseThrow(Object o) {
+//        return (User) o;
+//    }
 }

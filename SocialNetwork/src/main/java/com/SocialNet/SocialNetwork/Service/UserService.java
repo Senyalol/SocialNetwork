@@ -1,26 +1,37 @@
 package com.SocialNet.SocialNetwork.Service;
 
+import com.SocialNet.SocialNetwork.DTO.JwtAuthenticationDTO;
+import com.SocialNet.SocialNetwork.DTO.RefreshTokenDTO;
+import com.SocialNet.SocialNetwork.DTO.UserCredentialDTO;
 import com.SocialNet.SocialNetwork.DTO.UserDTO.CreateUserDTO;
 import com.SocialNet.SocialNetwork.DTO.UserDTO.ShortUserInfoDTO;
 import com.SocialNet.SocialNetwork.DTO.UserDTO.UpdateUserDTO;
 import com.SocialNet.SocialNetwork.Entites.User;
 import com.SocialNet.SocialNetwork.Repository.UserRepository;
+import com.SocialNet.SocialNetwork.Security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements com.SocialNet.SocialNetwork.Security.UserService {
 
     private final UserRepository userRepository;
+    private final JWTService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JWTService jwtService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<ShortUserInfoDTO> getUsers() {
@@ -58,6 +69,7 @@ public class UserService {
         return userDTO;
     }
 
+    @Transactional
     public ShortUserInfoDTO createUser(CreateUserDTO createUserDTO) {
         User user = new User();
         user.setUsername(createUserDTO.getUsername());
@@ -112,4 +124,58 @@ public class UserService {
 
         userRepository.delete(userToDelete);
     }
+
+    //Все по видосам
+
+    @Override
+    public JwtAuthenticationDTO signIn(UserCredentialDTO userCredentialDTO) throws AuthenticationException {
+        User user = findByCredentials(userCredentialDTO);
+
+        return jwtService.generateJwtAuthToken(user.getEmail());
+    }
+
+    @Override
+    public JwtAuthenticationDTO refreshToken(RefreshTokenDTO refreshTokenDTO) throws Exception {
+        String refreshToken = refreshTokenDTO.getRefreshToken();
+        if(refreshToken != null && jwtService.validateJwtToken(refreshToken)) {
+            User user = findByEmail(jwtService.getEmailFromToken(refreshToken));
+            return jwtService.refreshBaseToken(user.getEmail(), refreshToken);
+        }
+        throw new AuthenticationException("Invalid refresh token");
+    }
+
+    @Override
+    public ShortUserInfoDTO getUserById(String id) {
+        return null;
+    }
+
+    @Override
+    public ShortUserInfoDTO getUserByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public String AddUser(CreateUserDTO user2) {
+        User user = new User();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return "User Added"; //Очень много сомнений
+    }
+
+    private User findByCredentials(UserCredentialDTO userCredentialDTO) throws AuthenticationException {
+        Optional<User> optionalUser = userRepository.findByEmail(userCredentialDTO.getEmail());
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if(passwordEncoder.matches(userCredentialDTO.getPassword(), user.getPassword())) {
+                return user;
+            }
+        }
+        throw new AuthenticationException("Email or password is not corrected");
+
+    }
+
+    private User findByEmail(String email) throws Exception {
+        return userRepository.findByEmail(email).orElseThrow(() -> new Exception(String.format("User with email %s not found", email)));
+    }
+
 }

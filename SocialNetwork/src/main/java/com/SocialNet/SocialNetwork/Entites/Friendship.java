@@ -37,4 +37,8 @@ public class Friendship {
     @Column(name = "status", length = 20)
     private String status;
 
+    @Size(max = 255)
+    @Column(name = "usernamef")
+    private String usernamef;
+
 }

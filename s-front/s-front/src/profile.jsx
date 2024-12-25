@@ -199,13 +199,14 @@ function ProfilePage() {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="avatar-edit">Аватар (URL):</label>
-                                    <input
+                                    {/* <label htmlFor="avatar-edit">Аватар (URL):</label> */}
+                                    {/* <input
                                         type="text"
                                         id="avatar-edit"
                                         value={avatar}
                                         onChange={(e) => setAvatar(e.target.value)}
-                                    />
+                                    /> */}
+                                    <button>Поменять фотографию</button>
                                 </div>
                                 <button onClick={handleSaveClick}>Сохранить изменения</button>
                                 <button onClick={handleCancelClick}>Отмена</button>

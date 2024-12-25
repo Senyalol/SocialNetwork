@@ -26,7 +26,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private com.SocialNet.SocialNetwork.Entites.User user;
 
     @NotNull
     @Column(name = "text", nullable = false, length = Integer.MAX_VALUE)
