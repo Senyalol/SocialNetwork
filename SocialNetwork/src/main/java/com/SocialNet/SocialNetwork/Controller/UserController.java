@@ -7,11 +7,11 @@ import com.SocialNet.SocialNetwork.DTO.UserDTO.UpdateUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 
-import java.util.NoSuchElementException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -30,14 +30,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ShortUserInfoDTO getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    public ResponseEntity<ShortUserInfoDTO> getUserById(@PathVariable int id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ShortUserInfoDTO> createUser(@RequestBody @Valid CreateUserDTO createUserDTO) {
+    public ResponseEntity<ShortUserInfoDTO> addUser(@RequestBody @Valid CreateUserDTO createUserDTO) {
         ShortUserInfoDTO createdUser = userService.createUser(createUserDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser); // Возвращаем созданного пользователя
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PatchMapping("/{id}")
@@ -49,7 +49,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
             // Логируйте ошибку
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return handleError(e);
         }
     }
 
@@ -62,7 +62,13 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
             // Логируйте ошибку
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return handleError(e);
         }
+    }
+
+    // Метод для обработки ошибок
+    private ResponseEntity<Void> handleError(Exception e) {
+        // Логика логирования ошибки
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }
